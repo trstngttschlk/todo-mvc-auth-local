@@ -2,6 +2,7 @@ const passport = require('passport')
 const validator = require('validator')
 const User = require('../models/User')
 
+// once logeed in, redirect to todos
  exports.getLogin = (req, res) => {
     if (req.user) {
       return res.redirect('/todos')
@@ -10,12 +11,13 @@ const User = require('../models/User')
       title: 'Login'
     })
   }
-  
+  // checks if email, password are correct format
   exports.postLogin = (req, res, next) => {
     const validationErrors = []
     if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' })
     if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' })
-  
+
+    // if there are validationErrors, reddirect to /login
     if (validationErrors.length) {
       req.flash('errors', validationErrors)
       return res.redirect('/login')
@@ -36,6 +38,7 @@ const User = require('../models/User')
     })(req, res, next)
   }
   
+  // logs out user, and deletes session of user logged in
   exports.logout = (req, res) => {
     req.logout(() => {
       console.log('User has logged out.')
@@ -47,6 +50,7 @@ const User = require('../models/User')
     })
   }
   
+  // checks if user exists and redirects to /todos, or to sign-up if user does not exist, go to signup page with title create account
   exports.getSignup = (req, res) => {
     if (req.user) {
       return res.redirect('/todos')

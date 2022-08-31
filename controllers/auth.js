@@ -56,6 +56,7 @@ const User = require('../models/User')
     })
   }
   
+  // do not need to know how to write this from scratch
   exports.postSignup = (req, res, next) => {
     const validationErrors = []
     if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' })
@@ -83,6 +84,7 @@ const User = require('../models/User')
         req.flash('errors', { msg: 'Account with that email address or username already exists.' })
         return res.redirect('../signup')
       }
+      // save new user
       user.save((err) => {
         if (err) { return next(err) }
         req.logIn(user, (err) => {

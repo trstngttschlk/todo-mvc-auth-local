@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+// scheme = collections in mongoDB
 const TodoSchema = new mongoose.Schema({
   todo: {
     type: String,
